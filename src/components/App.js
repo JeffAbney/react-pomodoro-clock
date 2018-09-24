@@ -23,7 +23,22 @@ const Dial = (props) => {
       <div className="dial-container">
         <h2>{isSession ? "Session" : "Break"}</h2>
         <div className="dial">
-          
+          <div className="dial-number" id="full-time">
+            {Math.round(sessionLength)}:00
+          </div>
+          <div className="dial-number" id="quarter-time">
+            {Math.trunc(sessionLength/4)}:{sessionLength%4/4*60}
+          </div>
+          <div className="dial-number" id="half-time">
+            {Math.trunc(sessionLength/2)}:
+              {sessionLength%2 === 0 ?
+            	"00"
+              :
+                "30"}
+          </div>
+          <div className="dial-number" id="three-quarter-time">
+            {Math.trunc(sessionLength*0.75)}:{Math.trunc(sessionLength%(4/3)*60*3/4)}
+          </div>
         </div>
       </div>
 	);
@@ -62,7 +77,7 @@ class App extends Component {
 	render() {
 		const { state } = this;
 		return (
-			<div>
+			<div className="app">
 			  <Header />
 			  <Dial state={state}/>
 			  <Footer />
