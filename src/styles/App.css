@@ -1,4 +1,32 @@
+/* --------------- Common tags -------------------- */
 h1 {
 	color: #000;
 	text-align: center;
+}
+p {
+	color: #000;
+	size: 20px;
+}
+a {
+	margin: .5em;
+}
+
+
+/* ----------------- Specific tags ---------------------------*/
+
+.dial-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	width: 350px;
+	height: 350px;
+	background-color: grey;
+}
+
+.dial {
+	border-radius: 50%;
+	height: 250px;
+	width: 250px;
+	background-color: white;
 }
