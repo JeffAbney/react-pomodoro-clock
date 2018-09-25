@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import '../styles/App.css';
 import play from '../images/play.png';
 import pause from '../images/pause.png';
+import upArrow from '../images/upArrow.png';
+import downArrow from '../images/downArrow.png';
 
 const Header = (props) => {
     return (
@@ -44,18 +46,33 @@ const Dial = (props) => {
             <img className="dial-button play-button" src={timerIsRunning ? pause : play} />
           </div>
         </div>
-        <p className="reset-button">
-        Reset
-        </p>
+        <div className="time-control-container">
+          <TimeAdjuster time={sessionLength} />
+          <p className="reset-button">
+          Reset
+          </p>
+          <TimeAdjuster time={breakLength}/>
+        </div>
       </div>
 	);
 }
 
+const TimeAdjuster = (props) => {
 
+	return(
+      <div className="time-adjuster-container">
+        <h3 className="counter">
+          {props.time}
+        </h3>
+        <div className="arrow-container">
+          <img className="arrow up-arrow" src={upArrow} />
+          <img className="arrow down-arrow" src={downArrow} />
+        </div>
+      </div>
+	)
+}
 
 const Footer = (props) => {
-
-
     return (
       <div className="footer-container">
       	<p className="footer-text">

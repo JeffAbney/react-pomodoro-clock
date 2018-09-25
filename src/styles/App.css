@@ -20,7 +20,7 @@ a {
 	align-items: center;
 }
 
-/*--------------- Dial stlye --------------------- */
+/*--------------- Dial Component Style --------------------- */
 .dial-container {
 	display: flex;
 	flex-direction: column;
@@ -72,8 +72,46 @@ a {
 	width: 35px;
 }
 
-.reset-button {
-	text-align: center;
+/*------------------------------- Time Control Component Style --------------------- */
+
+.time-control-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.time-adjuster-container {
+	display: flex;
+	align-items: center;
+}
+
+.counter {
 	font-size: 24px;
-	padding-left: 0;
+}
+
+.arrow-container {
+	display: flex;
+	flex-direction: column;
+}
+.arrow {
+	height: 15px;
+	width: 15px;
+	padding-left: 3px;
+}
+
+.reset-button {
+	font-size: 24px;
+}
+
+/* ----------------- Footer Component Style ----------------------*/
+
+.footer-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.footer-text {
+	text-align: center;
 }
