@@ -20,13 +20,14 @@ a {
 	align-items: center;
 }
 
+/*--------------- Dial stlye --------------------- */
 .dial-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	width: 350px;
-	height: 350px;
+	width: 400px;
+	height: 400px;
 	background-color: grey;
 }
 
@@ -41,19 +42,41 @@ a {
 .dial-number {
 	position: absolute;
 }
-	#full-time{
-		top: 10px;
-		left: 43%;
-	}
-	#quarter-time{
-		top: 45%;
-		right: 10px;
-	}
-	#half-time{
-		bottom: 10px;
-		left: 40%;
-	}
-	#three-quarter-time{
-		top: 45%;
-		left: 10px;
-	}
+
+#full-time {
+	top: 10px;
+	left: 43%;
+}
+
+#quarter-time {
+	top: 45%;
+	right: 10px;
+}
+
+#half-time {
+	bottom: 10px;
+	left: 40%;
+}
+
+#three-quarter-time {
+	top: 45%;
+	left: 10px;
+}
+
+.dial-button-container {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.dial-button {
+	height: 35px;
+	width: 35px;
+	padding: 20px 35px 0 35px;
+}
+
+.reset-button {
+	text-align: center;
+	font-size: 24px;
+	padding-left: 0;
+}
