@@ -26,16 +26,16 @@ a {
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	width: 400px;
-	height: 400px;
+	width: 300px;
+	height: 375px;
 	background-color: grey;
 }
 
 .dial {
 	position: relative;
 	border-radius: 50%;
-	height: 250px;
-	width: 250px;
+	height: 200px;
+	width: 200px;
 	background-color: white;
 }
 
@@ -63,16 +63,13 @@ a {
 	left: 10px;
 }
 
-.dial-button-container {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-}
 
 .dial-button {
+	position: absolute;
+	top: 40%;
+	left: 43%;
 	height: 35px;
 	width: 35px;
-	padding: 20px 35px 0 35px;
 }
 
 .reset-button {

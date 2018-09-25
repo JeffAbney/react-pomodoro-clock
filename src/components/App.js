@@ -40,17 +40,18 @@ const Dial = (props) => {
           <div className="dial-number" id="three-quarter-time">
             {Math.trunc(sessionLength*0.75)}:{Math.trunc(sessionLength%(4/3)*60*3/4)}
           </div>
+          <div className="dial-button-container play-button-container">
+            <img className="dial-button play-button" src={timerIsRunning ? pause : play} />
+          </div>
         </div>
-        <div className="dial-button-container play-button-container">
-          <img className="dial-button play-button" src={play} />
-          <p className="dial-button reset-button">
-          Reset
-          </p>
-          <img className="dial-button pause-button" src={pause} />
-        </div>
+        <p className="reset-button">
+        Reset
+        </p>
       </div>
 	);
 }
+
+
 
 const Footer = (props) => {
 
