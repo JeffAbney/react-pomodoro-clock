@@ -35,39 +35,42 @@ const Dial = (props) => {
 	  startCountdown
 	} = props;
 
+	const timerType = () => isSession ? "Session" : "Break";
+	const timerLength = () => isSession ? sessionLength : breakLength;
+
 	return (
       <div className="dial-container">
-        <h2>{isSession ? "Session" : "Break"}</h2>
+        <h2>{timerType()}</h2>
         <div className="dial">
           <div className="dial-number" id="full-time">
-            {Math.round(sessionLength)}:00
+            {Math.round(timerLength())}:00
           </div>
           <div className="dial-number" id="quarter-time">
-            {Math.trunc(sessionLength/4)}
+            {Math.trunc(timerLength()/4)}
             :
             {
-              sessionLength%4 === 0 ?
+              timerLength()%4 === 0 ?
               "00"
               :
-              sessionLength%4/4*60
+              timerLength()%4/4*60
             }
           </div>
           <div className="dial-number" id="half-time">
-            {Math.trunc(sessionLength/2)}
+            {Math.trunc(timerLength()/2)}
             :
-              {sessionLength%2 === 0 ?
+              {timerLength()%2 === 0 ?
             	"00"
               :
                 "30"}
           </div>
           <div className="dial-number" id="three-quarter-time">
-            {Math.trunc(sessionLength*0.75)}
+            {Math.trunc(timerLength()*0.75)}
             :
             {
-              sessionLength%4 === 0 ?
+              timerLength()%4 === 0 ?
               "00"
               :
-              Math.trunc(sessionLength%(4/3)*60*3/4)
+              Math.trunc(timerLength()%(4/3)*60*3/4)
             }
           </div>
           <div className="dial-button-container play-button-container">
@@ -152,9 +155,9 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			sessionLength: 25,
-			breakLength: 5,
-			minutes: 25,
+			sessionLength: 1,
+			breakLength: 2,
+			minutes: "1",
 			seconds: "00",
 			timerIsRunning: false,
 			timeIsAlmostUp: false,
@@ -253,6 +256,7 @@ class App extends Component {
   }
 
   tick(){
+  	let { isSession } = this.state;
   	var min = Math.floor(this.secondsRemaining / 60);
   	var sec = this.secondsRemaining - (min * 60);
 
@@ -274,7 +278,20 @@ class App extends Component {
   	}
 
   	if (min === 0 && sec === 0) {
-  		clearInterval(this.intervalHandle)
+  		setTimeout(function(){}, 1000);
+  		clearInterval(this.intervalHandle);
+  		if (isSession) {
+  		  this.setState({
+  			isSession: false,
+  			minutes: this.state.breakLength
+  		  })
+  	    } else {
+  	      this.setState({
+  	      	isSession: true,
+  	      	minutes: this.state.sessionLength
+  	      })
+  	    }
+  		this.startCountdown();
   	}
 
   	this.secondsRemaining--
@@ -286,7 +303,7 @@ class App extends Component {
     })
     this.intervalHandle = setInterval(this.tick, 1000);
     let time = this.state.minutes;
-    this.secondsRemaining = time * 60;
+    this.secondsRemaining = time * 60 + Number(this.state.seconds);
   }
 
 	render() {
