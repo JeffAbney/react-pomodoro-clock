@@ -4,7 +4,6 @@ import play from '../images/play.png';
 import pause from '../images/pause.png';
 import upArrow from '../images/upArrow.png';
 import downArrow from '../images/downArrow.png';
-import alarm from '../sounds/alarm.mp3';
 
 const Header = (props) => {
     return (
