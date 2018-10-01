@@ -4,6 +4,7 @@ import play from '../images/play.png';
 import pause from '../images/pause.png';
 import upArrow from '../images/upArrow.png';
 import downArrow from '../images/downArrow.png';
+import alarm from '../sounds/alarm.mp3';
 
 const Header = (props) => {
     return (
@@ -157,7 +158,7 @@ class App extends Component {
 		this.state = {
 			sessionLength: 1,
 			breakLength: 2,
-			minutes: "1",
+			minutes: "01",
 			seconds: "00",
 			timerIsRunning: false,
 			timeIsAlmostUp: false,
@@ -277,8 +278,8 @@ class App extends Component {
   		})
   	}
 
-  	if (min === 0 && sec === 0) {
-  		setTimeout(function(){}, 1000);
+  	if (min < 0 && sec === 59) {
+
   		clearInterval(this.intervalHandle);
   		if (isSession) {
   		  this.setState({
