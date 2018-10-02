@@ -83,7 +83,15 @@ a {
 
 .time-adjuster-container {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
+	height: 75px;
+}
+
+.counter-and-arrow-container {
+	display: flex;
+	align-items: center;
+	height: 60px;
 }
 
 .counter {
@@ -98,6 +106,10 @@ a {
 	height: 15px;
 	width: 15px;
 	padding-left: 3px;
+}
+
+.label {
+	margin: 0;
 }
 
 .reset-button {

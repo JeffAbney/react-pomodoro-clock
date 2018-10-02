@@ -32,7 +32,8 @@ const Dial = (props) => {
 	  subtractBreakTime,
 	  startTime,
 	  pauseTime,
-	  startCountdown
+	  startCountdown,
+	  handleReset
 	} = props;
 
 	const timerType = () => isSession ? "Session" : "Break";
@@ -40,7 +41,7 @@ const Dial = (props) => {
 
 	return (
       <div className="dial-container">
-        <h2>{timerType()}</h2>
+        <h2 id="timer-label">{timerType()}</h2>
         <div className="dial">
           <div className="dial-number" id="full-time">
             {Math.round(timerLength())}:00
@@ -75,7 +76,8 @@ const Dial = (props) => {
           </div>
           <div className="dial-button-container play-button-container">
             <img
-              className="dial-button play-button" 
+              className="dial-button play-button"
+              id="start_stop" 
               src={timerIsRunning ? pause : play}
               onClick={timerIsRunning? pauseTime : startCountdown} 
             />
@@ -86,14 +88,24 @@ const Dial = (props) => {
             time={sessionLength}
             addTime={addSessionTime}
             subtractTime={subtractSessionTime}
+            label="Session"
+            counterLabel="session-length"
+            labelId="session-label"
+            upId="session-increment"
+            downId="session-decrement"
           />
-          <p className="reset-button">
+          <p className="reset-button" id="reset" onClick={props.handleReset}>
           Reset
           </p>
           <TimeAdjuster id="break-adjuster"
             time={breakLength}
             addTime={addBreakTime}
             subtractTime={subtractBreakTime}
+            label="Break"
+            counterLabel="breal-length"
+            labelId="break-label"
+            upId="break-increment"
+            downId="break-decrement"
           />
         </div>
       </div>
@@ -101,24 +113,29 @@ const Dial = (props) => {
 }
 
 const TimeAdjuster = (props) => {
-    const { addTime, subtractTime } = props;
+    const { addTime, subtractTime, label, labelId, upId, downId, time, counterLabel } = props;
 
 	return(
       <div className="time-adjuster-container">
-        <h3 className="counter">
-          {props.time}
-        </h3>
-        <div className="arrow-container">
-          <img
-            className="arrow up-arrow" 
-            src={upArrow} 
-            onClick= {addTime} 
-          />
-          <img 
-            className="arrow down-arrow" 
-            src={downArrow} 
-            onClick={subtractTime} 
-          />
+        <p className="label" id={labelId}>{label}</p>
+        <div className="counter-and-arrow-container">
+          <h3 className="counter" id={counterLabel}>
+            {time}
+          </h3>
+          <div className="arrow-container">
+            <img
+              className="arrow up-arrow" 
+              id={upId}
+              src={upArrow} 
+              onClick= {addTime} 
+            />
+            <img 
+              className="arrow down-arrow" 
+              id={downId}
+              src={downArrow} 
+              onClick={subtractTime} 
+            />
+          </div>
         </div>
       </div>
 	)
@@ -129,9 +146,10 @@ const TimeRemainingDisplay = (props) => {
 	
 	return (
       <div className="time-remaining-container">
-      <p className="time-remaining">
-        {minutes}:{seconds}
-      </p>
+        <p className="time-remaining" id="time-left">
+          {minutes}:{seconds}
+        </p>
+        <audio className="beep" id="beep" src="../src/sounds/alarm.mp3"/>
       </div>
 	)
 }
@@ -155,9 +173,9 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			sessionLength: 1,
-			breakLength: 2,
-			minutes: "01",
+			sessionLength: 25,
+			breakLength: 5,
+			minutes: "25",
 			seconds: "00",
 			timerIsRunning: false,
 			timeIsAlmostUp: false,
@@ -175,6 +193,7 @@ class App extends Component {
 		this.pauseTime = this.pauseTime.bind(this);
 		this.startCountdown = this.startCountdown.bind(this);
 		this.tick = this.tick.bind(this);
+		this.handleReset = this.handleReset.bind(this);
     }
 
   addSessionTime() {
@@ -283,14 +302,17 @@ class App extends Component {
   		if (isSession) {
   		  this.setState({
   			isSession: false,
-  			minutes: this.state.breakLength
+  			minutes: this.state.breakLength,
+  			seconds: "00"
   		  })
   	    } else {
   	      this.setState({
   	      	isSession: true,
-  	      	minutes: this.state.sessionLength
+  	      	minutes: this.state.sessionLength,
+  	      	seconds: "00"
   	      })
   	    }
+  	    document.getElementById("beep").play();
   		this.startCountdown();
   	}
 
@@ -306,6 +328,23 @@ class App extends Component {
     this.secondsRemaining = time * 60 + Number(this.state.seconds);
   }
 
+  handleReset() {
+  	if (this.state.timerIsRunning) {
+  		alert("Pause timer before resetting")
+  	} else {
+  	clearInterval(this.intervalHandle);
+    this.setState({
+			sessionLength: 25,
+			breakLength: 5,
+			minutes: "25",
+			seconds: "00",
+			timerIsRunning: false,
+			timeIsAlmostUp: false,
+			isSession: true
+		})
+    }
+  }
+
 	render() {
 		const { 
 		  state,
@@ -315,7 +354,8 @@ class App extends Component {
 		  subtractBreakTime,
 		  startTime,
 		  pauseTime,
-		  startCountdown
+		  startCountdown,
+		  handleReset
 		} = this;
 
 		const { minutes, seconds } = this.state;
@@ -332,6 +372,7 @@ class App extends Component {
 			    startCountdown={startCountdown}
 			    startTime={startTime}
 			    pauseTime={pauseTime}
+			    handleReset={handleReset}
 			   />
 			   <TimeRemainingDisplay minutes={minutes} seconds={seconds} />
 			  <Footer />
