@@ -159,7 +159,7 @@ const Footer = (props) => {
       <div className="footer-container">
       	<p className="footer-text">
       	  Click here for more information on the
-      	  <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">
+      	  <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique" target="_blank">
       	  Pomodoro Technique
       	  </a>
       	</p>
