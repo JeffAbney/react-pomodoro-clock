@@ -1,3 +1,8 @@
+/* --------------- Variables -------------------- */
+:root {
+    --time: 1500s;
+}
+
 /* --------------- Common tags -------------------- */
 h1 {
 	color: #000;
@@ -33,14 +38,15 @@ a {
 
 .dial {
 	position: relative;
-	border-radius: 50%;
 	height: 200px;
 	width: 200px;
-	background-color: white;
+	background-color: grey;
+	box-sizing: border-box;
 }
 
 .dial-number {
 	position: absolute;
+	z-index: 1000;
 }
 
 #full-time {
@@ -70,6 +76,67 @@ a {
 	left: 43%;
 	height: 35px;
 	width: 35px;
+	z-index: 1000;
+}
+
+/*----------------Spinner Style and animation ---------------------- */
+
+.pie {
+  width: 50%;
+  height: 100%;
+  transform-origin: 100% 50%;
+  position: absolute;
+  background: #80c;
+  border: 5px solid rgba(0,0,0,0.4);
+  box-sizing: border-box;
+}
+
+.spinner {
+  border-radius: 100% 0 0 100% / 50% 0 0 50%;
+  z-index: 200;
+  border-right: none;
+
+  box-sizing: border-box;
+}
+
+.spinner-ani {
+  animation: rota var(--time) linear infinite;
+}
+
+.filler {
+  border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+  z-index: 100;
+  border-left: none;
+  left: 50%;
+  opacity: 0;
+  box-sizing: border-box;
+}
+
+.filler-ani {
+  animation: opa var(--time) steps(1, end) infinite reverse;
+}
+
+.mask {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  z-index: 300;
+  opacity: 1;
+  background: inherit;
+  box-sizing: border-box;
+}
+
+.mask-ani {
+  animation: opa var(--time) steps(1, end) infinite;
+}
+
+@keyframes rota {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes opa {
+  0% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 /*------------------------------- Time Control Component Style --------------------- */

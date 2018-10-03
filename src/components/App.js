@@ -43,6 +43,9 @@ const Dial = (props) => {
       <div className="dial-container">
         <h2 id="timer-label">{timerType()}</h2>
         <div className="dial">
+          <div class="spinner pie" id="spinner"></div>
+          <div class="filler pie" id="filler"></div>
+          <div class="mask" id="mask"></div>
           <div className="dial-number" id="full-time">
             {Math.round(timerLength())}:00
           </div>
@@ -264,7 +267,7 @@ class App extends Component {
   	this.setState({
   	  timerIsRunning: !this.state.timerIsRunning
   	})
-  	
+
   }
 
   pauseTime() {
@@ -326,6 +329,9 @@ class App extends Component {
     this.intervalHandle = setInterval(this.tick, 1000);
     let time = this.state.minutes;
     this.secondsRemaining = time * 60 + Number(this.state.seconds);
+    document.getElementById("filler").className = "filler pie filler-ani";
+  	document.getElementById("spinner").className = "spinner pie spinner-ani";
+  	document.getElementById("mask").className = "mask mask-ani";
   }
 
   handleReset() {
