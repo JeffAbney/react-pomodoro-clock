@@ -202,13 +202,20 @@ class App extends Component {
     }
 
   addSessionTime() {
-  	let { sessionLength, timerIsRunning } = this.state;
+  	let { sessionLength, timerIsRunning, isSession } = this.state;
   	if (!timerIsRunning) {
       if (sessionLength < 60) {
       this.setState({
         sessionLength: ++sessionLength,
         minutes: this.state.isSession ? ++this.state.minutes : this.state.minutes
       })
+        if (isSession) {
+          let time = this.state.minutes;
+          this.secondsRemaining = time * 60 + Number(this.state.seconds);
+          filler.style.setProperty('--time', this.secondsRemaining + 60 + 's');
+  	      spinner.style.setProperty('--time', this.secondsRemaining + 60 + 's');
+  	      mask.style.setProperty('--time', this.secondsRemaining + 60 + 's');
+  	    }
       } else {
         alert("Session cannot be set to more than 60")
       }
@@ -218,13 +225,20 @@ class App extends Component {
   }
 
   addBreakTime() {
-  	let { breakLength, timerIsRunning } = this.state;
+  	let { breakLength, timerIsRunning, isSession } = this.state;
   	if (!timerIsRunning) {
   	  if(breakLength < 60) {
   	    this.setState({
   	      breakLength: ++breakLength,
   	      minutes: this.state.isSession ? this.state.minutes : ++this.state.minutes
   	     })
+  	    if (!isSession) {
+          let time = this.state.minutes;
+          this.secondsRemaining = time * 60 + Number(this.state.seconds);
+          filler.style.setProperty('--time', this.secondsRemaining + 60 + 's');
+  	      spinner.style.setProperty('--time', this.secondsRemaining + 60 + 's');
+  	      mask.style.setProperty('--time', this.secondsRemaining + 60 + 's');
+  	    }
   	  } else {
   	  alert("Break cannot be set to more than 60")
   	  }
@@ -234,13 +248,20 @@ class App extends Component {
   }
 
   subtractSessionTime() {
-  	let { sessionLength, timerIsRunning } = this.state;
+  	let { sessionLength, timerIsRunning, isSession } = this.state;
   	if (!timerIsRunning) {
   	  if (sessionLength > 1) {
   	    this.setState({
         sessionLength: --sessionLength,
         minutes: this.state.isSession ? --this.state.minutes : this.state.minutes
       })
+  	    if (isSession){
+          let time = this.state.minutes;
+          this.secondsRemaining = time * 60 + Number(this.state.seconds);
+          filler.style.setProperty('--time', this.secondsRemaining - 60 + 's');
+  	      spinner.style.setProperty('--time', this.secondsRemaining - 60 + 's');
+  	      mask.style.setProperty('--time', this.secondsRemaining - 60 + 's');
+  	    }
   	  } else {
   	  alert("Session cannot be set to less than 1")
       } 
@@ -250,13 +271,20 @@ class App extends Component {
   }
 
   subtractBreakTime() {
-  	let { breakLength, timerIsRunning } = this.state;
+  	let { breakLength, timerIsRunning, isSession } = this.state;
   	if (!timerIsRunning) {
   	  if (breakLength > 1) {
   	    this.setState({
         breakLength: --breakLength,
         minutes: this.state.isSession ? this.state.minutes : --this.state.minutes
       })
+  	    if (isSession){
+          let time = this.state.minutes;
+          this.secondsRemaining = time * 60 + Number(this.state.seconds);
+          filler.style.setProperty('--time', this.secondsRemaining - 60 + 's');
+  	      spinner.style.setProperty('--time', this.secondsRemaining - 60 + 's');
+  	      mask.style.setProperty('--time', this.secondsRemaining - 60 + 's');
+  	    }  	    
   	  } else {
   	  alert("Session cannot be set to less than 1")
       } 
@@ -306,31 +334,28 @@ class App extends Component {
 
   	if (min < 0 && sec === 59) {
 
-  		clearInterval(this.intervalHandle);
-  		if (isSession) {
-  		  this.setState({
-  			isSession: false,
-  			minutes: this.state.breakLength,
-  			seconds: "00"
-  		  })
-  	    } else {
-  	      this.setState({
-  	      	isSession: true,
-  	      	minutes: this.state.sessionLength,
-  	      	seconds: "00"
-  	      })
-  	    }
-  	    document.getElementById("beep").play();
-  		this.startCountdown();
+  	  clearInterval(this.intervalHandle);
+  	  if (isSession) {
+  	    this.setState({
+  		  isSession: false,
+  		  minutes: this.state.breakLength,
+  		  seconds: "00"
+  	  })
+  	  } else {
+  	    this.setState({
+  	      isSession: true,
+  	      minutes: this.state.sessionLength,
+  	      seconds: "00"
+  	    })
+  	  }
+  	  document.getElementById("beep").play();
+  	  this.startCountdown();
   	}
 
   	this.secondsRemaining--
   }
 
   startCountdown() {
-  	const filler = document.getElementById("filler");
-  	const spinner = document.getElementById("spinner");
-  	const mask = document.getElementById("mask");
   	this.setState({
     	timerIsRunning: true,
     	plays: ++this.state.plays
@@ -342,10 +367,13 @@ class App extends Component {
   }
 
   ani() {
-      filler.className = 'pie filler filler-ani';
-  	  spinner.className ='pie spinner spinner-ani';
-  	  mask.className ='mask mask-ani';
-  	  if (this.state.plays === 1) {
+  	const filler = document.getElementById("filler");
+  	const spinner = document.getElementById("spinner");
+  	const mask = document.getElementById("mask");
+    filler.className = 'pie filler filler-ani';
+  	spinner.className ='pie spinner spinner-ani';
+  	mask.className ='mask mask-ani';
+  	if (this.state.plays === 1) {
       filler.style.setProperty('--time', this.secondsRemaining + 's');
   	  spinner.style.setProperty('--time', this.secondsRemaining + 's');
   	  mask.style.setProperty('--time', this.secondsRemaining + 's');
