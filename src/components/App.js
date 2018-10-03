@@ -182,7 +182,8 @@ class App extends Component {
 			seconds: "00",
 			timerIsRunning: false,
 			timeIsAlmostUp: false,
-			isSession: true
+			isSession: true,
+			plays: 0
 		}
 
 		this.secondsRemaining;
@@ -197,6 +198,7 @@ class App extends Component {
 		this.startCountdown = this.startCountdown.bind(this);
 		this.tick = this.tick.bind(this);
 		this.handleReset = this.handleReset.bind(this);
+		this.ani = this.ani.bind(this);
     }
 
   addSessionTime() {
@@ -275,6 +277,9 @@ class App extends Component {
   	  timerIsRunning: false
   	})
   	clearInterval(this.intervalHandle);
+  	document.getElementById("filler").classList.add('paused');
+  	document.getElementById("spinner").classList.add('paused');
+  	document.getElementById("mask").classList.add('paused');
   }
 
   tick(){
@@ -323,16 +328,31 @@ class App extends Component {
   }
 
   startCountdown() {
+  	const filler = document.getElementById("filler");
+  	const spinner = document.getElementById("spinner");
+  	const mask = document.getElementById("mask");
   	this.setState({
     	timerIsRunning: true,
-    })
+    	plays: ++this.state.plays
+    });
     this.intervalHandle = setInterval(this.tick, 1000);
     let time = this.state.minutes;
     this.secondsRemaining = time * 60 + Number(this.state.seconds);
-    document.getElementById("filler").className = "filler pie filler-ani";
-  	document.getElementById("spinner").className = "spinner pie spinner-ani";
-  	document.getElementById("mask").className = "mask mask-ani";
+    setTimeout(this.ani, 1500);
   }
+
+  ani() {
+      filler.className = 'pie filler filler-ani';
+  	  spinner.className ='pie spinner spinner-ani';
+  	  mask.className ='mask mask-ani';
+  	  if (this.state.plays === 1) {
+      filler.style.setProperty('--time', this.secondsRemaining + 's');
+  	  spinner.style.setProperty('--time', this.secondsRemaining + 's');
+  	  mask.style.setProperty('--time', this.secondsRemaining + 's');
+  	};
+  	  
+  }
+
 
   handleReset() {
   	if (this.state.timerIsRunning) {
@@ -346,8 +366,12 @@ class App extends Component {
 			seconds: "00",
 			timerIsRunning: false,
 			timeIsAlmostUp: false,
-			isSession: true
-		})
+			isSession: true,
+			plays: 0
+		});
+    document.getElementById("filler").className = 'pie filler';
+  	document.getElementById("spinner").className ='pie spinner';
+  	document.getElementById("mask").className ='mask';
     }
   }
 

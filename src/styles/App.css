@@ -95,12 +95,12 @@ a {
   border-radius: 100% 0 0 100% / 50% 0 0 50%;
   z-index: 200;
   border-right: none;
-
   box-sizing: border-box;
 }
 
 .spinner-ani {
   animation: rota var(--time) linear infinite;
+  animation-play-state: running;
 }
 
 .filler {
@@ -114,6 +114,7 @@ a {
 
 .filler-ani {
   animation: opa var(--time) steps(1, end) infinite reverse;
+  animation-play-state: running;
 }
 
 .mask {
@@ -128,6 +129,11 @@ a {
 
 .mask-ani {
   animation: opa var(--time) steps(1, end) infinite;
+  animation-play-state: running;
+}
+
+.paused {
+	animation-play-state: paused;
 }
 
 @keyframes rota {
