@@ -202,7 +202,8 @@ class App extends Component {
     }
 
   addSessionTime() {
-  	let { sessionLength, timerIsRunning, isSession } = this.state;	
+  	let { sessionLength, timerIsRunning, isSession } = this.state;
+  	if (!timerIsRunning) {
       if (sessionLength < 60) {
       this.setState({
         sessionLength: ++sessionLength,
@@ -217,11 +218,12 @@ class App extends Component {
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }
       }
-    
+    } 
   }
 
   addBreakTime() {
-  	let { breakLength, timerIsRunning, isSession } = this.state;  	
+  	let { breakLength, timerIsRunning, isSession } = this.state;
+  	if (!timerIsRunning) {
   	  if(breakLength < 60) {
   	    this.setState({
   	      breakLength: ++breakLength,
@@ -234,11 +236,13 @@ class App extends Component {
   	      spinner.style.setProperty('--time', this.secondsRemaining + 's');
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }
-  	  } 
+  	  }    
+    }
   }
 
   subtractSessionTime() {
   	let { sessionLength, timerIsRunning, isSession } = this.state;
+  	if (!timerIsRunning) {
   	  if (sessionLength > 1) {
   	    this.setState({
         sessionLength: --sessionLength,
@@ -251,17 +255,19 @@ class App extends Component {
   	      spinner.style.setProperty('--time', this.secondsRemaining + 's');
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }
-  	  }
+  	  } 
+    }
   }
 
   subtractBreakTime() {
   	let { breakLength, timerIsRunning, isSession } = this.state;
+  	if (!timerIsRunning) {
   	  if (breakLength > 1) {
   	    this.setState({
         breakLength: --breakLength,
         minutes: this.state.isSession ? this.state.minutes : --this.state.minutes
       })
-  	    if (isSession){
+  	    if (!isSession){
           let time = this.state.minutes;
           this.secondsRemaining = time * 60 + Number(this.state.seconds);
           filler.style.setProperty('--time', this.secondsRemaining + 's');
@@ -269,6 +275,7 @@ class App extends Component {
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }  	    
   	  }
+    }
   }
 
   startTime() {
@@ -348,9 +355,9 @@ class App extends Component {
     let time = this.state.minutes;
     this.secondsRemaining = time * 60 + Number(this.state.seconds);
     if (this.state.plays === 1) {
-      filler.style.setProperty('--time', this.secondsRemaining - 1 + 's');
-  	  spinner.style.setProperty('--time', this.secondsRemaining - 1 + 's');
-  	  mask.style.setProperty('--time', this.secondsRemaining - 1 + 's');
+      filler.style.setProperty('--time', this.secondsRemaining + 1 + 's');
+  	  spinner.style.setProperty('--time', this.secondsRemaining + 1 + 's');
+  	  mask.style.setProperty('--time', this.secondsRemaining + 1 + 's');
   	};
     setTimeout(this.ani, 1500);
   }
