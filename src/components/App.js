@@ -88,7 +88,7 @@ const Dial = (props) => {
         </div>
         <div className="time-control-container">
           <TimeAdjuster id="session-adjuster"
-            time={sessionLength}
+            time={sessionLength > 9 ? sessionLength : "0" + sessionLength}
             addTime={addSessionTime}
             subtractTime={subtractSessionTime}
             label="Session"
@@ -101,7 +101,7 @@ const Dial = (props) => {
           Reset
           </p>
           <TimeAdjuster id="break-adjuster"
-            time={breakLength}
+            time={breakLength > 9 ? breakLength : "0" + breakLength}
             addTime={addBreakTime}
             subtractTime={subtractBreakTime}
             label="Break"
@@ -202,8 +202,7 @@ class App extends Component {
     }
 
   addSessionTime() {
-  	let { sessionLength, timerIsRunning, isSession } = this.state;
-  	if (!timerIsRunning) {
+  	let { sessionLength, timerIsRunning, isSession } = this.state;	
       if (sessionLength < 60) {
       this.setState({
         sessionLength: ++sessionLength,
@@ -217,17 +216,12 @@ class App extends Component {
   	      spinner.style.setProperty('--time', this.secondsRemaining + 's');
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }
-      } else {
-        alert("Session cannot be set to more than 60")
       }
-    } else {
-    	alert("Cannot change time while clock is running")
-    }
+    
   }
 
   addBreakTime() {
-  	let { breakLength, timerIsRunning, isSession } = this.state;
-  	if (!timerIsRunning) {
+  	let { breakLength, timerIsRunning, isSession } = this.state;  	
   	  if(breakLength < 60) {
   	    this.setState({
   	      breakLength: ++breakLength,
@@ -240,17 +234,11 @@ class App extends Component {
   	      spinner.style.setProperty('--time', this.secondsRemaining + 's');
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }
-  	  } else {
-  	  alert("Break cannot be set to more than 60")
-  	  }
-    } else {
-    	alert("Cannot change time while clock is running")
-    }
+  	  } 
   }
 
   subtractSessionTime() {
   	let { sessionLength, timerIsRunning, isSession } = this.state;
-  	if (!timerIsRunning) {
   	  if (sessionLength > 1) {
   	    this.setState({
         sessionLength: --sessionLength,
@@ -263,17 +251,11 @@ class App extends Component {
   	      spinner.style.setProperty('--time', this.secondsRemaining + 's');
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }
-  	  } else {
-  	  alert("Session cannot be set to less than 1")
-      } 
-    } else {
-    	alert("Cannot change time while clock is running")
-    }
+  	  }
   }
 
   subtractBreakTime() {
   	let { breakLength, timerIsRunning, isSession } = this.state;
-  	if (!timerIsRunning) {
   	  if (breakLength > 1) {
   	    this.setState({
         breakLength: --breakLength,
@@ -286,12 +268,7 @@ class App extends Component {
   	      spinner.style.setProperty('--time', this.secondsRemaining + 's');
   	      mask.style.setProperty('--time', this.secondsRemaining + 's');
   	    }  	    
-  	  } else {
-  	  alert("Session cannot be set to less than 1")
-      } 
-    } else {
-    	alert("Cannot change time while clock is running")
-    }
+  	  }
   }
 
   startTime() {
@@ -323,7 +300,7 @@ class App extends Component {
 
   	if (sec < 10) {
   		this.setState({
-  			seconds: "0" + this.state.seconds
+  			seconds: "0" + sec
   		})
   	}
 
@@ -333,11 +310,11 @@ class App extends Component {
   		})
   	}
 
-  	if (min < 0 && sec === 59) {
+  	if (min < 0) {
   	  clearInterval(this.intervalHandle);
-      document.getElementById("filler").className = 'pie filler';
-  	  document.getElementById("spinner").className ='pie spinner';
-  	  document.getElementById("mask").className ='mask';
+      document.getElementById("filler").className = 'pie filler paused';
+  	  document.getElementById("spinner").className ='pie spinner paused';
+  	  document.getElementById("mask").className ='mask paused';
   	  if (isSession) {
   	    this.setState({
   		  isSession: false,
@@ -371,9 +348,9 @@ class App extends Component {
     let time = this.state.minutes;
     this.secondsRemaining = time * 60 + Number(this.state.seconds);
     if (this.state.plays === 1) {
-      filler.style.setProperty('--time', this.secondsRemaining + 's');
-  	  spinner.style.setProperty('--time', this.secondsRemaining + 's');
-  	  mask.style.setProperty('--time', this.secondsRemaining + 's');
+      filler.style.setProperty('--time', this.secondsRemaining - 1 + 's');
+  	  spinner.style.setProperty('--time', this.secondsRemaining - 1 + 's');
+  	  mask.style.setProperty('--time', this.secondsRemaining - 1 + 's');
   	};
     setTimeout(this.ani, 1500);
   }
@@ -391,9 +368,6 @@ class App extends Component {
 
 
   handleReset() {
-  	if (this.state.timerIsRunning) {
-  		alert("Pause timer before resetting")
-  	} else {
   	clearInterval(this.intervalHandle);
     this.setState({
 			sessionLength: 25,
@@ -408,7 +382,6 @@ class App extends Component {
     document.getElementById("filler").className = 'pie filler';
   	document.getElementById("spinner").className ='pie spinner';
   	document.getElementById("mask").className ='mask';
-    }
   }
 
 	render() {

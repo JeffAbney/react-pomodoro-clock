@@ -181,6 +181,10 @@ a {
 	padding-left: 3px;
 }
 
+.no-show {
+	display: none;
+}
+
 .label {
 	margin: 0;
 }
