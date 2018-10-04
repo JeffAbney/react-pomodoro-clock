@@ -188,6 +188,7 @@ class App extends Component {
 
 		this.secondsRemaining;
 		this.intervalHandle;
+		this.timeoutHandle;
 
 		this.addSessionTime = this.addSessionTime.bind(this);
 		this.addBreakTime = this.addBreakTime.bind(this);
@@ -290,6 +291,7 @@ class App extends Component {
   	  timerIsRunning: false
   	})
   	clearInterval(this.intervalHandle);
+  	clearTimeout(this.timeoutHandle);
   	document.getElementById("filler").classList.add('paused');
   	document.getElementById("spinner").classList.add('paused');
   	document.getElementById("mask").classList.add('paused');
@@ -358,8 +360,10 @@ class App extends Component {
       filler.style.setProperty('--time', this.secondsRemaining + 1 + 's');
   	  spinner.style.setProperty('--time', this.secondsRemaining + 1 + 's');
   	  mask.style.setProperty('--time', this.secondsRemaining + 1 + 's');
-  	};
-    setTimeout(this.ani, 1500);
+  	  this.timeoutHandle = setTimeout(this.ani, 1500);
+  	} else {
+      this.timeoutHandle = setTimeout(this.ani, 1500);
+    }
   }
 
   ani() {
