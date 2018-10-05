@@ -357,9 +357,9 @@ class App extends Component {
     let time = this.state.minutes;
     this.secondsRemaining = time * 60 + Number(this.state.seconds);
     if (this.state.plays === 1) {
-      filler.style.setProperty('--time', this.secondsRemaining + 1 + 's');
-  	  spinner.style.setProperty('--time', this.secondsRemaining + 1 + 's');
-  	  mask.style.setProperty('--time', this.secondsRemaining + 1 + 's');
+      filler.style.setProperty('--time', this.secondsRemaining  + 's');
+  	  spinner.style.setProperty('--time', this.secondsRemaining  + 's');
+  	  mask.style.setProperty('--time', this.secondsRemaining  + 's');
   	  this.timeoutHandle = setTimeout(this.ani, 1500);
   	} else {
       this.timeoutHandle = setTimeout(this.ani, 1500);
