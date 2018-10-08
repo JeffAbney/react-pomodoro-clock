@@ -5,6 +5,7 @@ import pause from '../images/pause.png';
 import upArrow from '../images/upArrow.png';
 import downArrow from '../images/downArrow.png';
 
+
 const Header = (props) => {
   return (
     <div className="header-container">
@@ -42,9 +43,9 @@ const Dial = (props) => {
     <div className="dial-container">
       <h2 id="timer-label">{timerType()}</h2>
       <div className="dial">
-        <div class="spinner pie" id="spinner"></div>
-        <div class="filler pie" id="filler"></div>
-        <div class="mask" id="mask"></div>
+        <div className="spinner pie" id="spinner"></div>
+        <div className="filler pie" id="filler"></div>
+        <div className="mask" id="mask"></div>
         <div className="dial-number" id="full-time">
           {Math.round(timerLength())}:00
         </div>
@@ -87,7 +88,7 @@ const Dial = (props) => {
       </div>
       <div className="time-control-container">
         <TimeAdjuster id="session-adjuster"
-          time={sessionLength > 9 ? sessionLength : "0" + sessionLength}
+          time={sessionLength}
           addTime={addSessionTime}
           subtractTime={subtractSessionTime}
           label="Session"
@@ -100,11 +101,11 @@ const Dial = (props) => {
           Reset
         </p>
         <TimeAdjuster id="break-adjuster"
-          time={breakLength > 9 ? breakLength : "0" + breakLength}
+          time={breakLength}
           addTime={addBreakTime}
           subtractTime={subtractBreakTime}
           label="Break"
-          counterLabel="breal-length"
+          counterLabel="break-length"
           labelId="break-label"
           upId="break-increment"
           downId="break-decrement"
@@ -160,7 +161,7 @@ const TimeRemainingDisplay = (props) => {
       <p className="time-remaining" id="time-left">
         {minutes}:{seconds}
       </p>
-      <audio className="beep" id="beep" src="../src/sounds/alarm.mp3"/>
+      <audio className="beep" id="beep" src="../src/sounds/beep.wav"/>
     </div>
   );
 }
@@ -214,6 +215,7 @@ class App extends Component {
 
   addSessionTime() {
     let { sessionLength, timerIsRunning, isSession } = this.state;
+
     if (!timerIsRunning) {
       if (sessionLength < 60) {
         this.setState({
@@ -236,6 +238,7 @@ class App extends Component {
 
   addBreakTime() {
     let { breakLength, timerIsRunning, isSession } = this.state;
+
     if (!timerIsRunning) {
       if(breakLength < 60) {
         this.setState({
@@ -258,6 +261,7 @@ class App extends Component {
 
   subtractSessionTime() {
     let { sessionLength, timerIsRunning, isSession } = this.state;
+
     if (!timerIsRunning) {
       if (sessionLength > 1) {
         this.setState({
@@ -280,6 +284,7 @@ class App extends Component {
 
   subtractBreakTime() {
     let { breakLength, timerIsRunning, isSession } = this.state;
+    
     if (!timerIsRunning) {
       if (breakLength > 1) {
         this.setState({
@@ -357,7 +362,7 @@ class App extends Component {
       document.getElementById("beep").play();
       this.startCountdown();
     }
-    this.secondsRemaining--
+    --this.secondsRemaining
   }
 
   startCountdown() {
@@ -370,7 +375,7 @@ class App extends Component {
     });
     this.intervalHandle = setInterval(this.tick, 1000);
     let time = this.state.minutes;
-    this.secondsRemaining = time * 60 + Number(this.state.seconds);
+    this.secondsRemaining = time * 60 + Number(this.state.seconds) - 1;
     if (this.state.plays === 1) {
       filler.style.setProperty('--time', this.secondsRemaining  + 's');
       spinner.style.setProperty('--time', this.secondsRemaining  + 's');
@@ -403,6 +408,8 @@ class App extends Component {
       isSession: true,
       plays: 0
     });
+    document.getElementById("beep").pause();
+    document.getElementById("beep").currentTime = 0;
     document.getElementById("filler").className = 'pie filler';
     document.getElementById("spinner").className ='pie spinner';
     document.getElementById("mask").className ='mask';
