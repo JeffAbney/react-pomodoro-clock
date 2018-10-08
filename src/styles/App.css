@@ -3,8 +3,8 @@
     --time: 1500s;
     --background: #edead0;
     --container: #3ab795;
-    --main-clock: #a0e8af;
-    --clock-shadow: #86baa1;
+    --main-clock: #86baa1;
+    --clock-light: #a0e8af;
     --hilight: #ffcf56;
 }
 
@@ -35,7 +35,7 @@ a {
 
 /*--------------- Dial Component Style --------------------- */
 .dial-container {
-	color: white;
+	color: var(--background);
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -196,10 +196,12 @@ a {
 
 .label {
 	margin: 0;
+	color: var(--background);
 }
 
 .reset-button {
 	font-size: 24px;
+	color: var(--background);
 }
 
 /* ----------------- Footer Component Style ----------------------*/
