@@ -339,30 +339,23 @@ class App extends Component {
       })
     }
 
-    if (min < 0) {
-      clearInterval(this.intervalHandle);
-      document.getElementById("filler").className = 'pie filler paused';
-      document.getElementById("spinner").className ='pie spinner paused';
-      document.getElementById("mask").className ='mask paused';
-      if (isSession) {
-        this.setState({
-          isSession: false,
-          minutes: this.state.breakLength,
-          seconds: "00",
-          plays: 0
-        })
-      } else {
-        this.setState({
-          isSession: true,
-          minutes: this.state.sessionLength,
-          seconds: "00",
-          plays: 0
-        })
-      }
+    if (min === 0 && sec === 0) {
       document.getElementById("beep").play();
-      this.startCountdown();
     }
-    --this.secondsRemaining
+    if (min < 0) {
+      document.getElementById("filler").className = "pie filler paused";
+      document.getElementById("spinner").className = "pie spinner paused";
+      document.getElementById("mask").className = "mask paused";
+      this.setState({
+        isSession: !isSession,
+        minutes: isSession ? this.state.breakLength : this.state.sessionLength,
+        seconds: "00",
+        plays: 0
+      });
+      let time = this.state.minutes;
+      this.secondsRemaining = time * 60 + Number(this.state.seconds);
+    }
+    --this.secondsRemaining;
   }
 
   startCountdown() {
@@ -377,9 +370,9 @@ class App extends Component {
     let time = this.state.minutes;
     this.secondsRemaining = time * 60 + Number(this.state.seconds) - 1;
     if (this.state.plays === 1) {
-      filler.style.setProperty('--time', this.secondsRemaining  + 's');
-      spinner.style.setProperty('--time', this.secondsRemaining  + 's');
-      mask.style.setProperty('--time', this.secondsRemaining  + 's');
+      filler.style.setProperty("--time", this.secondsRemaining + "s");
+      spinner.style.setProperty("--time", this.secondsRemaining + "s");
+      mask.style.setProperty("--time", this.secondsRemaining + "s");
       this.timeoutHandle = setTimeout(this.ani, 1500);
     } else {
       this.timeoutHandle = setTimeout(this.ani, 1500);
