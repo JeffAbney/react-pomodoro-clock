@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import '../styles/App.css';
 import play from '../images/play.png';
 import pause from '../images/pause.png';
-import upArrow from '../images/upArrow.png';
-import downArrow from '../images/downArrow.png';
+import upArrow from '../images/next.png';
+import downArrow from '../images/back.png';
+import dialBorder from '../images/border.png';
+import button from '../images/button.png';
 
 
 const Header = (props) => {
   return (
     <div className="header-container">
-      <h1>Pomodoro Clock</h1>
+      <h1>POMODORO CLOCK</h1>
     </div>
   );
 }
@@ -36,13 +38,14 @@ const Dial = (props) => {
     isSession 
   } = props.state;
 
-  const timerType = () => isSession ? "Session" : "Break";
+  const timerType = () => isSession ? "SESSION" : "BREAK";
   const timerLength = () => isSession ? sessionLength : breakLength;
 
   return (
     <div className="dial-container">
-      <h2 id="timer-label">{timerType()}</h2>
+      <h2 className="timer-label" id="timer-label">{timerType()}</h2>
       <div className="dial">
+        <div><img className="dial-border" src={dialBorder} alt=""/></div>
         <div className="spinner pie" id="spinner"></div>
         <div className="filler pie" id="filler"></div>
         <div className="mask" id="mask"></div>
@@ -91,25 +94,28 @@ const Dial = (props) => {
           time={sessionLength}
           addTime={addSessionTime}
           subtractTime={subtractSessionTime}
-          label="Session"
+          label="SESSION"
           counterLabel="session-length"
           labelId="session-label"            
           upId="session-increment"
           downId="session-decrement"
         />
-        <p className="reset-button" id="reset" onClick={props.handleReset}>
-          Reset
-        </p>
+        
         <TimeAdjuster id="break-adjuster"
           time={breakLength}
           addTime={addBreakTime}
           subtractTime={subtractBreakTime}
-          label="Break"
+          label="BREAK"
           counterLabel="break-length"
           labelId="break-label"
           upId="break-increment"
           downId="break-decrement"
         />
+
+
+      </div>
+      <div className="reset-button-container" id="reset-container" onClick={props.handleReset}>
+        <img className="reset-button" src={button} alt="Restart button"/>
       </div>
     </div>
   );
@@ -131,23 +137,21 @@ const TimeAdjuster = (props) => {
     <div className="time-adjuster-container">
       <p className="label" id={labelId}>{label}</p>
       <div className="counter-and-arrow-container">
+        <img 
+          className="arrow down-arrow" 
+          id={downId}
+          src={downArrow} 
+          onClick={subtractTime} 
+        />
         <h3 className="counter" id={counterLabel}>
-          {time}
+        {time}
         </h3>
-        <div className="arrow-container">
-          <img
-            className="arrow up-arrow" 
-            id={upId}
-            src={upArrow} 
-            onClick= {addTime} 
-          />
-          <img 
-            className="arrow down-arrow" 
-            id={downId}
-            src={downArrow} 
-            onClick={subtractTime} 
-          />
-        </div>
+        <img
+          className="arrow up-arrow" 
+          id={upId}
+          src={upArrow} 
+          onClick= {addTime} 
+        />        
       </div>
     </div>
   );
@@ -354,6 +358,7 @@ class App extends Component {
       });
       let time = this.state.minutes;
       this.secondsRemaining = time * 60 + Number(this.state.seconds);
+      this.timeoutHandle = setTimeout(this.ani, 500);
     }
     --this.secondsRemaining;
   }
@@ -375,7 +380,7 @@ class App extends Component {
       mask.style.setProperty("--time", this.secondsRemaining + "s");
       this.timeoutHandle = setTimeout(this.ani, 1500);
     } else {
-      this.timeoutHandle = setTimeout(this.ani, 1500);
+      this.timeoutHandle = setTimeout(this.ani, 1200);
     }
   }
 

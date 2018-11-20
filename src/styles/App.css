@@ -1,27 +1,43 @@
 /* --------------- Variables -------------------- */
 :root {
     --time: 1500s;
-    --background: #edead0;
-    --container: #3ab795;
+    --background: #1A1A1A;
+    --container: #1A1A1A;
+    --text: #777777;
     --main-clock: #86baa1;
     --clock-light: #a0e8af;
     --hilight: #ffcf56;
 }
 
+@font-face {
+    font-family: 'Geomanist';
+    src: 
+      local('Geomanist'),
+      url('../fonts/geomanist-regular-webfont.ttf');
+}
+
 /* --------------- Common tags -------------------- */
 body {
 	background-color: var(--background);
+	font-family: Geomanist;
 }
 h1 {
-	color: #000;
 	text-align: center;
+	font-family: Geomanist;
+	color: var(--text);
+	font-weight: 300;
+}
+h2 {
+	color: var(--text);
+	font-weight: 300;
 }
 p {
-	color: #000;
 	size: 20px;
+	color: var(--text);
 }
 a {
 	margin: .5em;
+	color: var(--text);
 }
 
 
@@ -41,41 +57,55 @@ a {
 	justify-content: flex-start;
 	align-items: center;
 	width: 300px;
-	height: 350px;
+	height: 450px;
 	background-color: var(--container);
+}
+
+.timer-label {
+	margin-top: 0;
+	margin-bottom: 50px;
 }
 
 .dial {
 	position: relative;
 	height: 200px;
 	width: 200px;
-	background-color: var(--container);
 	box-sizing: border-box;
+}
+
+.dial-border {
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	height: 210px;
+	width: 210px;
+	z-index: 1000;
 }
 
 .dial-number {
 	position: absolute;
-	z-index: 1000;
+	z-index: 900;
+	color: var(--text);
 }
 
 #full-time {
-	top: 10px;
-	left: 43%;
+	top: -35px;
+	left: 41%;
 }
 
 #quarter-time {
 	top: 45%;
-	right: 10px;
+	right: -45px;
 }
 
 #half-time {
-	bottom: 10px;
-	left: 40%;
+	bottom: -35px;
+	left: 43%;
 }
 
 #three-quarter-time {
 	top: 45%;
-	left: 10px;
+	left: -55px;
 }
 
 
@@ -95,8 +125,8 @@ a {
   height: 100%;
   transform-origin: 100% 50%;
   position: absolute;
-  background: var(--main-clock);
-  border: 5px solid rgba(0,0,0,0.4);
+  background: var(--text);
+  border: 12px solid var(--background);
   box-sizing: border-box;
 }
 
@@ -132,7 +162,7 @@ a {
   position: absolute;
   z-index: 300;
   opacity: 1;
-  background: inherit;
+  background: var(--background);
   box-sizing: border-box;
 }
 
@@ -157,36 +187,36 @@ a {
 /*------------------------------- Time Control Component Style --------------------- */
 
 .time-control-container {
-	width: 100%;
+	width: 90%;
+	margin-top: 40px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 }
 
 .time-adjuster-container {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-content: space-between;
 	height: 75px;
+	width: 60px;
+
 }
 
 .counter-and-arrow-container {
 	display: flex;
 	align-items: center;
-	height: 60px;
+	color: var(--text);
 }
 
 .counter {
 	font-size: 24px;
+	margin: 0 2px 0 5px;
 }
 
-.arrow-container {
-	display: flex;
-	flex-direction: column;
-}
 .arrow {
 	height: 15px;
-	width: 15px;
+	width: 10px;
 	padding-left: 3px;
 }
 
@@ -196,12 +226,17 @@ a {
 
 .label {
 	margin: 0;
-	color: var(--background);
+	color: var(--text);
 }
 
 .reset-button {
-	font-size: 24px;
-	color: var(--background);
+	width: 87px;
+	height: 30px;
+}
+
+.time-remaining {
+	margin-top: 0;
+	font-weight: 600;
 }
 
 /* ----------------- Footer Component Style ----------------------*/
