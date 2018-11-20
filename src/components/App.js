@@ -380,7 +380,7 @@ class App extends Component {
       mask.style.setProperty("--time", this.secondsRemaining + "s");
       this.timeoutHandle = setTimeout(this.ani, 1500);
     } else {
-      this.timeoutHandle = setTimeout(this.ani, 1200);
+      this.timeoutHandle = setTimeout(this.ani, 500);
     }
   }
 
